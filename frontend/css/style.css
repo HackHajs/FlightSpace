@@ -1,10 +1,29 @@
 #PreloadTitle{
-    font-family: "SFRegular";
+    font-family: "Inter";
+    font-weight: 300;
+    letter-spacing: -3px;
+    position: absolute;
+    bottom: 120px;
+    left: 50px;
 
 }
 #PreloadSubTitle{
-    font-family: "SFBold";
+    font-family: "Inter";
+    font-weight: 700;
+    font-size: 5em;letter-spacing: -5px;
+    position: absolute;
+    bottom: -10px;
+    left: 50px;
 }
 #PreloadBar{
-    font-family: "SFMedium";
+    font-family: "Inter";
+    font-weight: 600;
+    letter-spacing: -1px;
+    position: absolute;
+    bottom: 35px;
+    right: 60px;
+    font-size: 2em;
+}
+#CapsuleStart{
+    background-color: black;
 }
