@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'SFRegular';
+    src: url('fonts/SFRegular.OTF');
+}
+@font-face {
+    font-family: 'SFMedium';
+    src: url('fonts/SFMedium.OTF');
+}
+@font-face {
+    font-family: 'SFBold';
+    src: url('fonts/SFBold.OTF');
+}
+@font-face {
+    font-family: 'Product';
+    src: url('fonts/PD.ttf');
+}
+@font-face {
+    font-family: 'Light';
+    src: url('fonts/Light.ttf');
+}
