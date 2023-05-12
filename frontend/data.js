@@ -1,13 +1,6 @@
-var theUrl = "http://wttr.in/barcelona"
-function getData(theUrl, callback)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() {
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            callback(xmlHttp.responseText);
-    }
-    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
-    xmlHttp.send(null);
-}
-
-console.log(getData)
+fetch('https://jsonplaceholder.typicode.com/posts')
+    .then(response => response.json()) // Convert response to JSON
+    .then(data => {
+        console.log(data); // Log the data to the console
+    })
+    .catch(error => console.error(error)); // Log any errors to the console
