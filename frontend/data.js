@@ -1,8 +1,13 @@
-const playersURL = "http://localhost:8080/"
-function httpGet(playersURL)
+var theUrl = "http://wttr.in/barcelona"
+function getData(theUrl, callback)
 {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", playersURL, false ); // false for synchronous request
-    xmlHttp.send( null );
-    return xmlHttp.responseText;
+    xmlHttp.onreadystatechange = function() {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
 }
+
+console.log(getData)
