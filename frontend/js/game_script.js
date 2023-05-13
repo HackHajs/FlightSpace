@@ -1,3 +1,5 @@
+const halfwidth= 640;
+const height   = 550;
 ////////////////////////////////////DATA PULL/////////////////////////////////////////
 setInterval(function() {
     fetch('http://localhost:8080/players')
@@ -84,8 +86,8 @@ canvas.addEventListener('click', (event) => {
     const incrementX = dx / frames; const incrementY = dy / frames;
     const animate = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#FFCC00'; ctx.fillRect(0,0,640,550);
-        ctx.fillStyle = '#4D4D4D'; ctx.fillRect(640,0,640,550);
+        ctx.fillStyle = '#FFCC00'; ctx.fillRect(0,0,halfwidth,height);
+        ctx.fillStyle = '#4D4D4D'; ctx.fillRect(halfwidth,0,halfwidth,height);
         ctx.fillStyle = '#B5FF87';
         x += incrementX; y += incrementY;
         ctx.beginPath(); ctx.arc(x, y, radius, 0, 2 * Math.PI);
