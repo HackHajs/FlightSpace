@@ -1,6 +1,9 @@
 use std::collections::hash_map::HashMap;
 
-use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{
+    get, web, App, HttpResponse, HttpServer, Responder,
+    http::header,
+};
 
 mod players;
 use players::{mod_players, parse_players, Field, Message, Player};
@@ -25,7 +28,8 @@ async fn update_player(
     field: web::Path<String>,
     value: web::Path<String>,
 ) -> impl Responder {
-    HttpResponse::Ok().json(todo!())
+    
+    HttpResponse::Ok().insert_header(("Access-Control-Allow-Origin", "*")).json(todo!())
 }
 
 #[actix_web::main]
@@ -33,9 +37,11 @@ async fn main() -> std::io::Result<()> {
     std::env::set_var("RUST_LOG", "debug");
     env_logger::init();
 
+
     HttpServer::new(|| {
+        let mut players: HashMap<String, Player> = HashMap::new();
         App::new()
-            .app_data(web::Data::new(parse_players()))
+            .app_data(web::Data::new(players))
             .service(get_players)
             .service(update_player)
     })
