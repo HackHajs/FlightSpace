@@ -14,6 +14,7 @@ ctx.fillStyle = 'blue';
 ctx.fill();
 // add event listener for mouse click
 canvas.addEventListener('click', (event) => {
+    console.log("Click")
     // get click coordinates relative to canvas
     const rect = canvas.getBoundingClientRect();
     const targetX = event.clientX - rect.left;
