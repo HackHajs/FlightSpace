@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+    <script>
+        function maxy() {
+          var element = document.documentElement; // Get the root element (the <html> element)
+          
+          if (element.requestFullscreen) {
+            element.requestFullscreen(); // Standard method
+          } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen(); // Firefox-specific method
+          } else if (element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen(); // Chrome, Safari, and Opera-specific method
+          } else if (element.msRequestFullscreen) {
+            element.msRequestFullscreen(); // IE/Edge-specific method
+
+                    }          
+        document.getElementById("miny").style.display = "inline-block";
+
+          document.getElementById("max").style.display = "none";
+
+        }
+      </script>
     <script>
         function updateWeather() {
             // Make an API call to fetch the weather data
@@ -39,9 +60,9 @@
             var now = new Date();
             
             // Calculate the modified times
-            var depTime = padZero(now.getHours() - 1) + ":" + padZero(now.getMinutes()) + ":" + padZero(now.getSeconds());
+            var depTime = padZero(now.getHours() - 1) + ":" + padZero(now.getMinutes())// + ":" + padZero(now.getSeconds());
             var actualTime = padZero(now.getHours()) + ":" + padZero(now.getMinutes()) + ":" + padZero(now.getSeconds());
-            var destTime = padZero(now.getHours() + 2) + ":" + padZero(now.getMinutes()) + ":" + padZero(now.getSeconds());
+            var destTime = padZero(now.getHours() + 2) + ":" + padZero(now.getMinutes());// + ":" + padZero(now.getSeconds());
             
             // Update the paragraph elements with the modified times
             document.getElementById("DepTime").textContent = depTime;
@@ -63,6 +84,13 @@
 <link rel="stylesheet" href="eng.css">
 </head>
 <body>
+    <div id="uwu" class=" hidden">
+        <div id="flightrivia" class="">
+            <img id="loadercon" src="apps/assets/TRIVIA.png" height="60px" alt="App">
+            <p id="subtitle">Flightrivia</p>
+            <div id="Spinner" class="loading-spinner"></div>
+        </div>
+    </div>
     <div class="container">
         <div class="left">
             <div class="left-upper">
@@ -85,8 +113,91 @@
         </div>
         <div class="right">
             <div class="list">
+                <div class="apps" onclick="redapp()">
+                    <script>
+                        function redapp() {
+                          var element = document.getElementById("uwu");
+                          element.classList.remove("hidden");
+                          element.classList.add("loadapps");
+                      
+                          setTimeout(function() {
+                            window.location.href = "/frontend/game.html"; // Replace with the desired URL
+                          }, 3000); // Delay of 3 seconds (3000 milliseconds)
+                        }
+                      </script>
+                    <img class="imgee" src="apps/assets/TRIVIA.png" height="60px" alt="App">
+                    <p class="txt">Flightrivia</p>
+                    <!-- /game/ -->
+                </div>
+                <div id="max" class="apps" onclick="toggleFullscreen()">
+                    <img class="imgee" src="apps/assets/setting.png" height="60px" alt="App">
+                    <p class="txt" id="fullscreenText">Maximize</p>
+                  </div>
+                  
+                  <script>
+                    function toggleFullscreen() {
+                      var button = document.getElementById("max");
+                      var text = document.getElementById("fullscreenText");
+                      
+                      if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+                        // If the page is already in fullscreen, minimize it
+                        if (document.exitFullscreen) {
+                          document.exitFullscreen(); // Standard method
+                        } else if (document.mozCancelFullScreen) {
+                          document.mozCancelFullScreen(); // Firefox-specific method
+                        } else if (document.webkitExitFullscreen) {
+                          document.webkitExitFullscreen(); // Chrome, Safari, and Opera-specific method
+                        } else if (document.msExitFullscreen) {
+                          document.msExitFullscreen(); // IE/Edge-specific method
+                        }
+                        
+                        text.textContent = "Maximize";
+                      } else {
+                        // If the page is not in fullscreen, maximize it
+                        var element = document.documentElement; // Get the root element (the <html> element)
+                        
+                        if (element.requestFullscreen) {
+                          element.requestFullscreen(); // Standard method
+                        } else if (element.mozRequestFullScreen) {
+                          element.mozRequestFullScreen(); // Firefox-specific method
+                        } else if (element.webkitRequestFullscreen) {
+                          element.webkitRequestFullscreen(); // Chrome, Safari, and Opera-specific method
+                        } else if (element.msRequestFullscreen) {
+                          element.msRequestFullscreen(); // IE/Edge-specific method
+                        }
+                        
+                        text.textContent = "Minimize";
+                      }
+                    }
+                  </script>
+                  
+                <div id="min" class="apps" onclick="miny()">
+                    <img class="imgee" src="apps/assets/TRIVIA.png" height="60px" alt="App">
+                    <p class="txt">Minimize</p>
+                </div>
                 <div class="apps">
-                    hi
+                    <img class="imgee" src="apps/assets/TRIVIA.png" height="60px" alt="App">
+                    <p class="txt">Flightrivia</p>
+                </div>
+                <div class="apps">
+                    <img class="imgee" src="apps/assets/TRIVIA.png" height="60px" alt="App">
+                    <p class="txt">Flightrivia</p>
+                </div>
+                <div class="apps">
+                    <img class="imgee" src="apps/assets/TRIVIA.png" height="60px" alt="App">
+                    <p class="txt">Flightrivia</p>
+                </div>
+                <div class="apps">
+                    <img class="imgee" src="apps/assets/TRIVIA.png" height="60px" alt="App">
+                    <p class="txt">Flightrivia</p>
+                </div>
+                <div class="apps">
+                    <img class="imgee" src="apps/assets/TRIVIA.png" height="60px" alt="App">
+                    <p class="txt">Flightrivia</p>
+                </div>
+                <div class="apps">
+                    <img class="imgee" src="apps/assets/TRIVIA.png" height="60px" alt="App">
+                    <p class="txt">Flightrivia</p>
                 </div>
             </div>
         </div>
