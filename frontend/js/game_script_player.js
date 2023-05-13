@@ -13,12 +13,11 @@ cta.fillStyle = '#5972D8'; cta.fill();
 //////////////////////////////////CLICKETY CLICK/////////////////////////////////////////
 canvis.addEventListener('click', (event) => {
     //////////////////////////////////SEND API/////////////////////////////////////////
-    fetch('http://localhost:8080/update/'+uname+":ypos:"+y)
+    fetch('http://localhost:8080/update/'+uname+":ypos:"+Math.trunc(y))
         .catch(error => console.error(error));
-    fetch('http://localhost:8080/update/'+uname+":xpos:"+x)
+    fetch('http://localhost:8080/update/'+uname+":xpos:"+Math.trunc(x))
         .catch(error => console.error(error));
     //////////////////////////////////(S)END API/////////////////////////////////////////
-    console.log("clicc")
     const rect = canvis.getBoundingClientRect();
     const targetX = event.clientX - rect.left; const targetY = event.clientY - rect.top;
     const dx = targetX - x; const dy = targetY - y;
