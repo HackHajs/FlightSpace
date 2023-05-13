@@ -5,6 +5,9 @@ use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
 use serde::{Deserialize, Serialize};
 use regex::Regex;
 
+const X_CENTER: u32 = 1920 / 2;
+const Y_CENTER: u32 = 1080 / 2;
+
 #[derive(Debug, Serialize, Deserialize, Clone)]
 struct Player {
     pub name: String,
@@ -42,28 +45,54 @@ async fn playercount(players: web::Data<Mutex<HashMap<String, Player>>>) -> impl
         .json(Playercount(players.lock().unwrap().len()))
 }
 
-#[get("/update/{test}")]
-async fn update(players: web::Data<Mutex<HashMap<String, Player>>>, test: web::Path<String>) -> impl Responder {
-    let re = Regex::new(r"([^\/]+):([^\/]+):([^\/]+)").unwrap();
-
-    let cap = re.captures_iter(&test).next().unwrap(); 
-    let player = &cap[1];
-    let field = &cap[2];
-    let value: i32 = cap[3].parse().unwrap();
-
-    if field == "health" {
-        players.lock().unwrap().entry(String::from(player)).and_modify(|player| player.health += value as u8);
-    } else if field == "xpos" {
-        players.lock().unwrap().entry(String::from(player)).and_modify(|player| player.x_pos = value as u32);
-    } else if field == "ypos" {
-        players.lock().unwrap().entry(String::from(player)).and_modify(|player| player.y_pos = value as u32);
-    }
+#[get("/loose_health/{player_name}")]
+async fn loose_health(players: web::Data<Mutex<HashMap<String, Player>>>, player_name: web::Path<String>) -> impl Responder {
+    let player_name = format!("{}", player_name);
+    let mut guard = players.try_lock().unwrap();
+    guard.entry(String::from(player_name)).and_modify(|player| player.health -= 1);
+    std::mem::drop(guard);
 
     HttpResponse::Ok()
         .insert_header(("Access-Control-Allow-Origin", "*"))
-        .json(format!("{}, {}, {}", player, field, value))
+        .json("OK")
 }
 
+#[get("/pos/{data}")]
+async fn pos(players: web::Data<Mutex<HashMap<String, Player>>>, data: web::Path<String>) -> impl Responder {
+    let re = Regex::new(r"([^\/]+):([^\/]+):([^\/]+)").unwrap();
+    let cap = re.captures_iter(&data).next().unwrap();
+    let player_name = cap[1].to_string();
+    let x_pos: u32 = cap[2].parse().unwrap();
+    let y_pos: u32 = cap[3].parse().unwrap();
+    let mut guard = players.try_lock().unwrap();
+    guard.entry(String::from(player_name)).and_modify(|player| { 
+        player.x_pos = x_pos;
+        player.y_pos = y_pos;
+    });
+    std::mem::drop(guard);
+
+    HttpResponse::Ok()
+        .insert_header(("Access-Control-Allow-Origin", "*"))
+        .json("OK")
+}
+
+
+#[get("/join/{player_name}")]
+async fn join(players: web::Data<Mutex<HashMap<String, Player>>>, player_name: web::Path<String>) -> impl Responder {
+    let player_name = format!("{}", player_name);
+    let mut guard = players.try_lock().unwrap();
+    guard.insert(player_name.clone(), Player {
+        name: player_name,
+        health: 3,
+        x_pos: X_CENTER,
+        y_pos: Y_CENTER,
+    });
+    std::mem::drop(guard);
+
+    HttpResponse::Ok()
+        .insert_header(("Access-Control-Allow-Origin", "*"))
+        .json("OK")
+}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -84,8 +113,10 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(web::Data::new(players))
             .service(get_players)
-            .service(update)
+            .service(loose_health)
             .service(playercount)
+            .service(pos)
+            .service(join)
     })
     .bind("127.0.0.1:8080")?
     .run()
