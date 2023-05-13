@@ -18,3 +18,9 @@
     font-family: 'Light';
     src: url('fonts/Light.ttf');
 }
+.visible{
+    visibility: visible !important;
+}
+.hidden{
+    visibility: hidden !important;
+}

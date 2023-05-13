@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=1920, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Language Carousel</title>
+    <style>
+        body{
+            background-color: #4c4d4f;
+            color: white;
+        }
+        .language {
+            position: absolute;
+            top: 20%;
+
+            letter-spacing: -1px;
+            font-weight: 700;
+            font-family: "Inter";
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .uwu{
+            position: absolute;
+            top: 15%;
+
+            letter-spacing: -1px;
+            font-weight: 700;
+            font-family: "Inter";
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+    <img src="globe.png" class="uwu"height="25">
+
+    <div id="language-carousel"></div>
+
+    <script>
+        const languages = [
+            "idioma",
+            "language",
+            "sprache",
+            "langue",
+            "lingua",
+            "言語",
+            "언어",
+            "Язык"
+        ];
+
+        const carousel = document.getElementById('language-carousel');
+        let currentIndex = 0;
+
+        function displayNextLanguage() {
+            const currentLanguage = languages[currentIndex];
+            const languageElement = document.createElement('div');
+            languageElement.classList.add('language');
+            languageElement.textContent = currentLanguage;
+            carousel.appendChild(languageElement);
+
+            setTimeout(() => {
+                languageElement.style.opacity = '1';
+            }, 100);
+
+            setTimeout(() => {
+                languageElement.style.opacity = '0';
+            }, 2800);
+
+            setTimeout(() => {
+                carousel.removeChild(languageElement);
+                currentIndex = (currentIndex + 1) % languages.length;
+                displayNextLanguage();
+            }, 3000);
+        }
+
+        displayNextLanguage();
+    </script>
+</body>
+</html>
