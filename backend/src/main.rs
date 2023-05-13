@@ -16,7 +16,7 @@ async fn get_players(players: web::Data<HashMap<String, Player>>) -> impl Respon
         de_datafied_players.insert(k.to_string(), v.clone());
     }
 
-    HttpResponse::Ok().json(Message {
+    HttpResponse::Ok().insert_header(("Access-Control-Allow-Origin", "*")).json(Message {
         players: de_datafied_players
     })
 }
@@ -40,6 +40,12 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(|| {
         let mut players: HashMap<String, Player> = HashMap::new();
+        players.insert("Player1".to_string(), Player{
+            name: "Player1".to_owned(),
+            health: 3,
+            x_pos: 100,
+            y_pos: 100,
+        });
         App::new()
             .app_data(web::Data::new(players))
             .service(get_players)
