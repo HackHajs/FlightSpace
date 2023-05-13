@@ -1,6 +1,4 @@
 let uname = prompt("Please enter your username", "Blahaj");
-let text;
-console.log("aa"+uname)
 fetch('http://localhost:8080/join/'+uname)
     .then(response => response.json()) // Convert response to JSON
     .then(data => {
