@@ -37,6 +37,43 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+        #langs{
+            /* put everything horizontal */
+            display: flex;
+            flex-direction: row;
+            /*justify-content: center;*/
+            align-items: center;
+            /* Globe and text close by */
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* Globe and text size */
+            font-size: 2em;
+            /* Globe and text font */
+            font-family: "Inter";
+            /* Globe and text color */
+            color: white;
+            /* Globe and text spacing */
+            letter-spacing: -1px;
+            /* Globe and text weight */
+            font-weight: 700;
+            border-radius: 3%;
+            padding: 20px; 
+            height: 100px;
+            width: 1000px;
+            background-color: black;
+        }
+        #globelist{
+
+        }
+        
+        #lang{
+
+        }
+        #arrowlist{
+
+        }
     </style>
 </head>
 <body>
@@ -84,7 +121,9 @@
         displayNextLanguage();
     </script>
     <div id="langs">
-        <img src="globe.png" height="25">
+        <p><img id="globelist" src="globe.png" height="25">
+        <p id="lang">English</p>
+        <img id="arrowlist" src="arrow.png" height="25"></p>
     </div>
 </body>
 </html>
