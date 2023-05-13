@@ -1,15 +1,12 @@
 use std::{
-    fs::{ 
-        read_to_string,
-        write,
-        File,
-    },
-    io::ErrorKind,
     collections::HashMap,
+    fs::{read_to_string, write, File},
+    io::ErrorKind,
 };
 
 use regex::Regex;
 use serde::{Deserialize, Serialize};
+use actix_web::web::Data;
 
 pub enum Field {
     Xpos(u32),
@@ -17,7 +14,7 @@ pub enum Field {
     Health(u8),
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Player {
     pub name: String,
     pub x_pos: u32,
@@ -38,18 +35,18 @@ pub fn parse_players() -> HashMap<String, Player> {
 
     // Read or create the save file
     let unparsed_players = match read_to_string(&player_file_path) {
-        Ok(file) => file, 
+        Ok(file) => file,
         Err(err) => match err.kind() {
             ErrorKind::NotFound => {
                 File::create(&player_file_path).expect("Failed to create config file");
                 String::new()
-            },
+            }
             _ => panic!("Failed to create save file!"),
-        }
+        },
     };
 
     let mut players: HashMap<String, Player> = HashMap::new();
-    
+
     let re = Regex::new(r"\(([^:]+):(\d+):(\d+):(\d+)\)").unwrap();
     for cap in re.captures_iter(&unparsed_players) {
         let player = Player {
@@ -68,28 +65,26 @@ pub fn mod_players(field: Field, name: String) {
     let mut players = parse_players();
     match field {
         Field::Health(hp) => {
-            players.entry(name).and_modify(|player| { 
+            players.entry(name).and_modify(|player| {
                 player.health -= hp;
             });
         }
         Field::Xpos(x) => {
-            players.entry(name).and_modify(|player| {
-                player.x_pos = x
-            });
+            players.entry(name).and_modify(|player| player.x_pos = x);
         }
         Field::Ypos(y) => {
-            players.entry(name).and_modify(|player| {
-                player.y_pos = y
-            });
-        },
+            players.entry(name).and_modify(|player| player.y_pos = y);
+        }
     }
 }
 
 fn save_players(players: HashMap<String, Player>) {
     let mut save_file = String::new();
     for player in players.values() {
-        let fmt_player = format!("({}:{}:{}:{})\n", player.name, player.health, player.x_pos, player.y_pos);
+        let fmt_player = format!(
+            "({}:{}:{}:{})\n",
+            player.name, player.health, player.x_pos, player.y_pos
+        );
         save_file.push_str(&fmt_player);
     }
-
 }
