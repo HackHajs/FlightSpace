@@ -5,6 +5,8 @@ const radius = 25;
 const speed = 35;
 let x = 640;
 let y = 275;
+const halfwidth= 640;
+const height   = 550;
 //////////////////////////////////DRAW BG/////////////////////////////////////////
 ctx.fillStyle = '#FFCC00'; ctx.fillRect(0,0,640,550);
 ctx.fillStyle = '#4D4D4D'; ctx.fillRect(640,0,640,550);
@@ -13,9 +15,9 @@ ctx.beginPath();
 ctx.arc(x, y, radius, 0, 2 * Math.PI);
 ctx.fillStyle = '#5972D8'; ctx.fill();
 //////////////////////////////////CLICKETY CLICK/////////////////////////////////////////
-canvas.addEventListener('click', (event) => {
+const move = () => {
     const rect = canvas.getBoundingClientRect();
-    const targetX = event.clientX - rect.left; const targetY = event.clientY - rect.top;
+    const targetX = Math.random() * canvas.width; const targetY = Math.random() * canvas.height;
     const dx = targetX - x; const dy = targetY - y;
     const distance = Math.sqrt(dx*dx + dy*dy);
     const frames = Math.ceil(distance / speed); let frame = 1;
@@ -30,5 +32,9 @@ canvas.addEventListener('click', (event) => {
         ctx.fillStyle = '#5972D8'; ctx.fill();
         if (frame < frames) {frame++;
             requestAnimationFrame(animate);}};
-    animate();});
+    animate();};
+setInterval(function() {
+    move();
+}, 500);
+
 ////////////////////////////////END CANVAS/////////////////////////////////////////
