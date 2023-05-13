@@ -33,21 +33,29 @@
             height: 100%;
             overflow: hidden;
         }
-        #canvas1, #canvas2 {
+        #player, #host, #bg {
             position: absolute;
             top: 0;
             left: 0;
         }
-        #canvas2 {
+        #player {
+            z-index: 2;
+        }
+        #host {
             z-index: 1;
+        }
+        #bg {
+            z-index: 0;
         }
 
     </style>
 </head>
 <body>
-<canvas id="canvas1" width="1280" height="550"></canvas>
-<canvas id="canvas2" width="1280" height="550"></canvas>
-<script src="js/game_script_player.js"></script>
-<script src="js/game_script_host.js"></script>
+<canvas id="player" width="1280" height="550"></canvas>
+<canvas id="host" width="1280" height="550"></canvas>
+<canvas id="bg" width="1280" height="550"></canvas>
+<script src="js/game_script_player.js" async></script>
+<script src="js/bg.js" async></script>
+<!--<script src="js/game_script_host.js" async></script>-->
 </body>
 </html>
