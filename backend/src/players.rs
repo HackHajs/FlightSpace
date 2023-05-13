@@ -7,6 +7,9 @@ use std::{
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 
+pub const X_CENTER: i32 = 1920 / 2;
+pub const Y_CENTER: i32 = 1080 / 2;
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Player {
     pub name: String,
@@ -69,4 +72,13 @@ pub fn save_players(players: &HashMap<String, Player>) {
     }
     let mut file = std::fs::File::create(player_file_path).unwrap();
     file.write_all(save_file.as_bytes()).unwrap();
+}
+
+pub fn player_side(x: i32) -> char {
+    if x < X_CENTER {
+        'a'
+    } else {
+        'b'
+    }
+
 }

@@ -3,13 +3,10 @@ use regex::Regex;
 use rand::Rng;
 
 mod players;
-use players::{parse_players, save_players, Message, Player};
+use players::{save_players, parse_players, player_side, Player, Message, X_CENTER, Y_CENTER};
 
 mod questions;
 use questions::*;
-
-const X_CENTER: i32 = 1920 / 2;
-const Y_CENTER: i32 = 1080 / 2;
 
 #[get("/players")]
 async fn get_players() -> impl Responder {
@@ -92,6 +89,25 @@ async fn send_question() -> impl Responder {
         .json(question)
 }
 
+#[get("/judge/{question}")]
+async fn judge(question: web::Path<String>) -> impl Responder {
+    let mut players = parse_players();
+    let correct = get_question(question.parse().unwrap()).correct;
+
+    for (name, player) in players.iter_mut() {
+        println!("{}, {}", name, player.x_pos);
+        if player_side(player.x_pos) != correct {
+            player.health -= 1;
+            println!("{} is wrong! new health: {}", name, player.health)
+        }
+    }
+    save_players(&players);
+
+    HttpResponse::Ok()
+        .insert_header(("Access-Control-Allow-Origin", "*"))
+        .json("OK")
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     std::env::set_var("RUST_LOG", "debug");
@@ -104,6 +120,7 @@ async fn main() -> std::io::Result<()> {
             .service(player_count)
             .service(create_player)
             .service(send_question)
+            .service(judge)
     })
     .bind("127.0.0.1:8080")?
     .run()
