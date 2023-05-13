@@ -1,8 +1,12 @@
 use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
 use regex::Regex;
+use rand::Rng;
 
 mod players;
 use players::{parse_players, save_players, Message, Player};
+
+mod questions;
+use questions::*;
 
 const X_CENTER: i32 = 1920 / 2;
 const Y_CENTER: i32 = 1080 / 2;
@@ -71,11 +75,21 @@ async fn create_player(name: web::Path<String>) -> impl Responder {
         },
     );
 
-    save_players(players);
+    save_players(&players);
 
     HttpResponse::Ok()
         .insert_header(("Access-Control-Allow-Origin", "*"))
         .json("OK")
+}
+
+#[get("/question")]
+async fn send_question() -> impl Responder {
+    let mut rng = rand::thread_rng();
+    let random_number: u8 = rng.gen_range(1..=10);
+    let question = get_question(random_number);
+    HttpResponse::Ok()
+        .insert_header(("Access-Control-Allow-Origin", "*"))
+        .json(question)
 }
 
 #[actix_web::main]
@@ -89,6 +103,7 @@ async fn main() -> std::io::Result<()> {
             .service(update_player)
             .service(player_count)
             .service(create_player)
+            .service(send_question)
     })
     .bind("127.0.0.1:8080")?
     .run()
