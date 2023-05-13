@@ -4,22 +4,23 @@
     <meta charset="UTF-8">
     <title>Click</title>
     <style>
-        #canvas1, #canvas2 {
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        #canvas, #canvas2 {
             position: absolute;
             top: 0;
             left: 0;
-        }
-        #canvas2 {
-            top: 50px;
-            left: 50px;
         }
     </style>
 </head>
 <body>
 <h1>Click</h1>
-<canvas id="canvas" width="1980" height="1080"></canvas>
 <canvas id="canvas2" width="1980" height="1080"></canvas>
-<script src="js/script.js"></script>
-<!--<script src="js/script2.js"></script>-->
+<canvas id="canvas" width="1980" height="550"></canvas>
+<script src="js/game_script.js"></script>
 </body>
 </html>
