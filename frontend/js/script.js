@@ -2,7 +2,7 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const radius = 25;
-const speed = 50; // pixels per frame
+const speed = 50;
 let x = 640;
 let y = 275;
 //////////////////////////////////DRAW BG/////////////////////////////////////////
