@@ -2,6 +2,33 @@
 <html>
 <head>
     <script>
+        function updateWeather() {
+            // Make an API call to fetch the weather data
+            fetch('https://api.weatherapi.com/v1/current.json?key=a54d7ce19e71448ebd092119231305&q=Barcelona')
+                .then(response => response.json())
+                .then(data => {
+                    // Extract the actual weather conditions and temperature
+                    var conditions = data.current.condition.text;
+                    var temperatureC = data.current.temp_c;
+                    console.log(conditions);
+                    console.log(temperatureC);
+                    // Update the paragraph elements with the weather information
+                    document.getElementById("Sunny").textContent = conditions;
+                    document.getElementById("temp").textContent = temperatureC + "°C";
+                })
+                .catch(error => {
+                    console.log('Error:', error);
+                });
+        }
+    
+        // Refresh the weather information every 10 minutes (600,000 milliseconds)
+        window.onload = function() {
+            updateWeather();
+            setInterval(updateWeather, 600000);
+        };
+    </script>
+    <script>
+        updateWeather();
         function padZero(number) {
             // Helper function to pad a single digit number with a leading zero
             return (number < 10 ? '0' : '') + number;
@@ -39,7 +66,7 @@
     <div class="container">
         <div class="left">
             <div class="left-upper">
-                <p id="DepTimeH">Origin Time</p>
+                <p id="DepTimeH" onclick="updateWeather()">Origin Time</p>
                 <p id="DepTime">Origin Time</p>
                 <p id="ActualTimeH">actual time</p>
                 <p id="ActualTime">Time</p>
@@ -50,13 +77,19 @@
                 <!-- Display "SUNNY" 23ºC-->
                 <div id="weather">
                     <img src="sunny.png" alt="Sunny" id="weatherIcon" height="60px">
-                    <p id="Sunny">Sunny</p>
+                    <p id="Sunny">Partly cloudy</p>
                     <p id="atdest">at destination</p>
                     <p id="temp">23ºC</p>
                 </div>
             </div>
         </div>
-        <div class="right">Right</div>
+        <div class="right">
+            <div class="list">
+                <div class="apps">
+                    hi
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
