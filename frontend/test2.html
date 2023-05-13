@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stacking Canvases</title>
+    <style>
+        #canvas1, #canvas2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #canvas2 {
+            top: 50px;
+            left: 50px;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas1" width="200" height="200"></canvas>
+<canvas id="canvas2" width="200" height="200"></canvas>
+
+<script>
+    const canvas1 = document.getElementById('canvas1');
+    const ctx1 = canvas1.getContext('2d');
+    ctx1.fillStyle = 'red';
+    ctx1.fillRect(0, 0, canvas1.width, canvas1.height);
+
+    const canvas2 = document.getElementById('canvas2');
+    const ctx2 = canvas2.getContext('2d');
+    ctx2.fillStyle = 'blue';
+    ctx2.fillRect(0, 0, canvas2.width, canvas2.height);
+</script>
+</body>
+</html>
