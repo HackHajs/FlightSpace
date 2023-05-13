@@ -1,17 +1,12 @@
 use std::collections::HashMap;
+use std::sync::Mutex;
 
 use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
-
 use serde::{Deserialize, Serialize};
-
-pub enum Field {
-    Xpos(u32),
-    Ypos(u32),
-    Health(u8),
-}
+use regex::Regex;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct Player {
+struct Player {
     pub name: String,
     pub x_pos: u32,
     pub y_pos: u32,
@@ -19,18 +14,18 @@ pub struct Player {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct Message {
-    pub players: HashMap<String, Player>,
+struct Message {
+    players: Mutex<HashMap<String, Player>>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 struct Playercount(usize);
 
 #[get("/players")]
-async fn get_players(players: web::Data<HashMap<String, Player>>) -> impl Responder {
+async fn get_players(players: web::Data<Mutex<HashMap<String, Player>>>) -> impl Responder {
     // This is a bit jank, but the clock is ticking
     let mut de_datafied_players: HashMap<String, Player> = HashMap::new();
-    for (k, v) in players.iter() {
+    for (k, v) in players.lock().unwrap().iter() {
         de_datafied_players.insert(k.to_string(), v.clone());
     }
 
@@ -40,24 +35,38 @@ async fn get_players(players: web::Data<HashMap<String, Player>>) -> impl Respon
 }
 
 #[get("/playercount")]
-async fn playercount(players: web::Data<HashMap<String, Player>>) -> impl Responder {
-    println!("{}", players.len());
+async fn playercount(players: web::Data<Mutex<HashMap<String, Player>>>) -> impl Responder {
+    println!("{}", players.lock().unwrap().len());
     HttpResponse::Ok()
         .insert_header(("Access-Control-Allow-Origin", "*"))
-        .json(Playercount(players.len()))
+        .json(Playercount(players.lock().unwrap().len()))
 }
 
-#[get("/update/{player}/{field}/{value}")]
-async fn update_player(
-    players: web::Data<HashMap<String, Player>>,
-    player_name: web::Path<String>,
-    field: web::Path<String>,
-    value: web::Path<String>,
-) -> impl Responder {
+#[get("/update/{test}")]
+async fn update(players: web::Data<Mutex<HashMap<String, Player>>>, test: web::Path<String>) -> impl Responder {
+    let re = Regex::new(r"([^\/]+):([^\/]+):([^\/]+)").unwrap();
+    let mut player = "";
+    let mut field = "";
+    let mut value = 0;
+
+    let cap = re.captures_iter(&test).next().unwrap(); 
+    player = &cap[1];
+    field = &cap[2];
+    value = cap[3].parse().unwrap();
+
+    if field == "health" {
+        players.lock().unwrap().entry(String::from(player)).and_modify(|player| player.health += value);
+    } else if field == "xpos" {
+        todo!();
+    } else if field == "ypos" {
+        todo!();
+    }
+
     HttpResponse::Ok()
         .insert_header(("Access-Control-Allow-Origin", "*"))
-        .json(todo!())
+        .json(format!("{}, {}, {}", player, field, value))
 }
+
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -65,8 +74,8 @@ async fn main() -> std::io::Result<()> {
     env_logger::init();
 
     HttpServer::new(|| {
-        let mut players: HashMap<String, Player> = HashMap::new();
-        players.insert(
+        let players: Mutex<HashMap<String, Player>> = Mutex::from(HashMap::new());
+        players.lock().unwrap().insert(
             "Player1".to_string(),
             Player {
                 name: "Player1".to_owned(),
@@ -78,7 +87,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(web::Data::new(players))
             .service(get_players)
-            .service(update_player)
+            .service(update)
             .service(playercount)
     })
     .bind("127.0.0.1:8080")?
