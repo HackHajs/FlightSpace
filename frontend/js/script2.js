@@ -1,6 +1,5 @@
 const canvass = document.getElementById('canvas2');
 const cty = canvass.getContext('2d');
-
 // set initial position
 let a = 75;
 let b = 75;
@@ -14,8 +13,8 @@ cty.fill();
 canvass.addEventListener('click', (event) => {
     // get click coordinates relative to canvass
     const rect = canvass.getBoundingClientRect();
-    const targeta = event.clientX - rect.left;
-    const targetb = event.clientY - rect.top;
+    const targeta = Math.floor(Math.random() * 100);
+    const targetb = Math.floor(Math.random() * 100);
 
     // calculate distance to target
     const da = targeta - a;
@@ -42,7 +41,7 @@ canvass.addEventListener('click', (event) => {
         // draw circle at new position
         cty.beginPath();
         cty.arc(a, b, radius, 0, 2 * Math.PI);
-        cty.fillStyle = 'blue';
+        cty.fillStyle = 'red';
         cty.fill();
 
         // check if animation is finished
