@@ -1,4 +1,4 @@
-fetch('http://localhost:8080/question/')
+fetch('http://localhost:8080/questions/')
     .then(response => response.json()) // Convert response to JSON
     .then(data => {
         console.log(data); // Log the data to the console
