@@ -1,8 +1,31 @@
+<!--<!DOCTYPE html>
+<html>
+<head>
+    <title>Trivialing</title>
+    <style>
+        #canvas1, #canvas2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #canvas2 {
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas1"></canvas>
+<canvas id="canvas2"></canvas>
+<script src="js/game_script_player.js"></script>
+</body>
+</html>-->
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Trivialing</title>
+    <title>Click</title>
     <style>
         html, body {
             margin: 0;
@@ -10,17 +33,21 @@
             height: 100%;
             overflow: hidden;
         }
-        #canvas, #canvas2 {
+        #canvas1, #canvas2 {
             position: absolute;
             top: 0;
             left: 0;
         }
+        #canvas2 {
+            z-index: 1;
+        }
+
     </style>
 </head>
 <body>
-<h1>Click</h1>
-<canvas id="canvas2" width="1980" height="1080"></canvas>
-<canvas id="canvas" width="1980" height="550"></canvas>
-<script src="js/game_script.js"></script>
+<canvas id="canvas1" width="1280" height="550"></canvas>
+<canvas id="canvas2" width="1280" height="550"></canvas>
+<script src="js/game_script_player.js"></script>
+<script src="js/game_script_host.js"></script>
 </body>
 </html>
