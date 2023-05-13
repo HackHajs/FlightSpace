@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
 use regex::Regex;
 use rand::Rng;
@@ -108,6 +109,16 @@ async fn judge(question: web::Path<String>) -> impl Responder {
         .json("OK")
 }
 
+#[get("/clear")]
+async fn clear() -> impl Responder {
+    let empty: HashMap<String, Player> = HashMap::new();
+    save_players(&empty);
+
+    HttpResponse::Ok()
+        .insert_header(("Access-Control-Allow-Origin", "*"))
+        .json("OK")
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     std::env::set_var("RUST_LOG", "debug");
@@ -121,6 +132,7 @@ async fn main() -> std::io::Result<()> {
             .service(create_player)
             .service(send_question)
             .service(judge)
+            .service(clear)
     })
     .bind("127.0.0.1:8080")?
     .run()
