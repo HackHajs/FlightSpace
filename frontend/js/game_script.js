@@ -3,14 +3,24 @@ fetch('http://localhost:8080/players')
     .then(response => response.json())
     .then(data => {
         console.log(data);
-        var numPlayers=data.length;
-        var player1=data[0].name;
-        var player2=data[1].name;
-        var player3=data[2].name;
+        let numPlayers=data.length;
+        console.log(numPlayers);
+        let player1=data.Player1;
+        console.log(player1)
+
     })
     .catch(error => console.error(error));
-
 //////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
 //////////////////////////////////INIT CANVAS/////////////////////////////////////////
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
