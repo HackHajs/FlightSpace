@@ -1,14 +1,14 @@
 ////////////////////////////////////DATA PULL/////////////////////////////////////////
 fetch('http://localhost:8080/players')
-    .then(response => response.json()) // Convert response to J
+    .then(response => response.json())
     .then(data => {
-        console.log(data); // Log the data to the console
+        console.log(data);
         var numPlayers=data.length;
         var player1=data[0].name;
         var player2=data[1].name;
         var player3=data[2].name;
     })
-    .catch(error => console.error(error)); // Log any errors to the console
+    .catch(error => console.error(error));
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////INIT CANVAS/////////////////////////////////////////
