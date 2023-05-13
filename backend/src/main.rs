@@ -45,21 +45,18 @@ async fn playercount(players: web::Data<Mutex<HashMap<String, Player>>>) -> impl
 #[get("/update/{test}")]
 async fn update(players: web::Data<Mutex<HashMap<String, Player>>>, test: web::Path<String>) -> impl Responder {
     let re = Regex::new(r"([^\/]+):([^\/]+):([^\/]+)").unwrap();
-    let mut player = "";
-    let mut field = "";
-    let mut value = 0;
 
     let cap = re.captures_iter(&test).next().unwrap(); 
-    player = &cap[1];
-    field = &cap[2];
-    value = cap[3].parse().unwrap();
+    let player = &cap[1];
+    let field = &cap[2];
+    let value: i32 = cap[3].parse().unwrap();
 
     if field == "health" {
-        players.lock().unwrap().entry(String::from(player)).and_modify(|player| player.health += value);
+        players.lock().unwrap().entry(String::from(player)).and_modify(|player| player.health += value as u8);
     } else if field == "xpos" {
-        todo!();
+        players.lock().unwrap().entry(String::from(player)).and_modify(|player| player.x_pos = value as u32);
     } else if field == "ypos" {
-        todo!();
+        players.lock().unwrap().entry(String::from(player)).and_modify(|player| player.y_pos = value as u32);
     }
 
     HttpResponse::Ok()
