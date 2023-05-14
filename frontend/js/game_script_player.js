@@ -1,8 +1,8 @@
 //////////////////////////////////INIT CANVIS/////////////////////////////////////////
 const canvis = document.getElementById('player');
 const cta = canvis.getContext('2d');
-const radius = 25;
-const speed = 50;
+let radius = 25;
+let speed = 50;
 let x = 640;
 let y = 275;
 
