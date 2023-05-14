@@ -1,7 +1,7 @@
 //TODO: make 6 fake players
 const canvoth = document.getElementById('blahaj');
 const oth = canvoth.getContext('2d');
-const radiuwus=25
+const radiuwus=25;
 let xa = 640; let ya = 0;
 let xb = 640; let yb = 0;
 let xc = 640; let yc = 0;
