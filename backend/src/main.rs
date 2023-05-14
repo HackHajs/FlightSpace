@@ -9,6 +9,25 @@ use players::{save_players, parse_players, player_side, Player, Message, X_CENTE
 mod questions;
 use questions::*;
 
+/// Reads the save file and sends a json object with all the players to the caller.
+/// # How to use:
+/// The request structure is the following:
+/// `http://ip_address/players`
+///
+/// The json file that's replied back is structured like the following:
+/// ```json
+/// players:
+///     <PLAYER1_NAME>:
+///         name: "<PLAYER_NAME>"
+///         xpos: <XPOS>
+///         ypos: <YPOS>
+///         health: <HEALTH>
+///     <PLAYER2_NAME>:
+///         name: "<PLAYER2_NAME>"
+///         ...
+///     <PLAYER3_NAME>:
+///     ...
+/// ```
 #[get("/players")]
 async fn get_players() -> impl Responder {
     HttpResponse::Ok()
@@ -18,6 +37,16 @@ async fn get_players() -> impl Responder {
         })
 }
 
+/// Reads the save file and updates the requested player stats.
+/// # How to use
+/// The request structure is the following: 
+/// `http://ip_address/update/<NAME>:<STAT>:<VALUE>`
+/// - `<NAME>` is replaced with the username of the player you're trying yo update 
+/// - `<STAT>` is replaced with the stat that you want to update, which can be:
+///     - `health`, which is deprecated in favor of `/judge`
+///     - `xpos`, which means you want to update the position of the player in the X coordenate
+///     - `ypos`, which means you want to update the position of the player in the Y coordinate
+/// The reply will simply be a json object containing "OK" if the operation succeeded.
 #[get("/update/{data}")]
 async fn update_player(data: web::Path<String>) -> impl Responder {
     let re = Regex::new(r"([^\/]+):([^\/]+):([^\/]+)").unwrap();
@@ -53,6 +82,10 @@ async fn update_player(data: web::Path<String>) -> impl Responder {
         .json("OK")
 }
 
+/// Returns a json object containing a single number of players in the game session
+/// # How to use
+/// The request structure is the following:
+/// `http://ip_address/count`
 #[get("/count")]
 async fn player_count() -> impl Responder {
     HttpResponse::Ok()
@@ -60,6 +93,13 @@ async fn player_count() -> impl Responder {
         .json(parse_players().len())
 }
 
+/// Creates a new player with the provided username. The new player will have the following
+/// defaults: Health = 3, X and Y positions = Center of HTML5 canvas.
+/// # How to use
+///
+/// The request structure is the following:
+/// `http://ip_address/join/<USERNAME>`
+/// - <USERNAME> is the username of the player you wish to create
 #[get("/join/{name}")]
 async fn create_player(name: web::Path<String>) -> impl Responder {
     let mut players = parse_players();
@@ -80,6 +120,21 @@ async fn create_player(name: web::Path<String>) -> impl Responder {
         .json("OK")
 }
 
+/// Replies with a random question from the set
+/// # How to use
+/// The request structure is the following
+/// `http://ip_address/question`
+///
+/// The replied json object has the following structure:
+/// ```json
+/// question: "<QUESTION_TEXT>"
+/// a: "<POSSIBLE_ANSWER_1>"
+/// b: "<POSSIBLE_ANSWER_2>"
+/// correct: "<CORRECT>"
+/// number: <QUESTION_ID>
+/// ```
+/// - `<CORRECT>` is either `a` or `b`, representing one of the possible answers
+/// - `<QUESTION_ID>` is supplied so players can later be judged on the correct question
 #[get("/question")]
 async fn send_question() -> impl Responder {
     let mut rng = rand::thread_rng();
@@ -90,16 +145,21 @@ async fn send_question() -> impl Responder {
         .json(question)
 }
 
+/// Judges if players picked the right question. If it's incorrect, 1HP is substracted from their
+/// health
+/// # How to use
+/// The request structure is the following:
+/// `http://ip_address/judge/<QUESTION_ID>`
+/// where the `<QUESTION_ID>` is that which was supplied by the `/question` call
+/// It will reply with a json object containing "OK" if the operation succeeded.
 #[get("/judge/{question}")]
 async fn judge(question: web::Path<String>) -> impl Responder {
     let mut players = parse_players();
     let correct = get_question(question.parse().unwrap()).correct;
 
-    for (name, player) in players.iter_mut() {
-        println!("{}, {}", name, player.x_pos);
+    for (_, player) in players.iter_mut() {
         if player_side(player.x_pos) != correct {
             player.health -= 1;
-            println!("{} is wrong! new health: {}", name, player.health)
         }
     }
     save_players(&players);
@@ -109,6 +169,10 @@ async fn judge(question: web::Path<String>) -> impl Responder {
         .json("OK")
 }
 
+/// Deletes all the players and their data.
+/// # How to use:
+/// The request structure is the following:
+/// `http://ip_address/clear`
 #[get("/clear")]
 async fn clear() -> impl Responder {
     let empty: HashMap<String, Player> = HashMap::new();
@@ -119,8 +183,17 @@ async fn clear() -> impl Responder {
         .json("OK")
 }
 
+#[get("/questionid/{id}")]
+async fn questionid(id: web::Path<String>) -> impl Responder {
+    let question = get_question(id.parse().unwrap());
+    HttpResponse::Ok()
+        .insert_header(("Access-Control-Allow-Origin", "*"))
+        .json(question)
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    // Enables logs. Only necessary for debug builds.
     std::env::set_var("RUST_LOG", "debug");
     env_logger::init();
 
@@ -133,8 +206,9 @@ async fn main() -> std::io::Result<()> {
             .service(send_question)
             .service(judge)
             .service(clear)
+            .service(questionid)
     })
-    .bind("127.0.0.1:8080")?
-    .run()
+    .bind("127.0.0.1:8080")? // Bound to localhost for the demo. Can use another IP for an on-board
+    .run()                   // entretainment system.
     .await
 }

@@ -10,6 +10,7 @@ use serde::{Deserialize, Serialize};
 pub const X_CENTER: i32 = 1366 / 2;
 pub const Y_CENTER: i32 = 750 / 2;
 
+/// Contains all the player information
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Player {
     pub name: String,
@@ -18,11 +19,14 @@ pub struct Player {
     pub health: i32,
 }
 
+/// Used to hold the data replied by the `/players` call
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Message {
     pub players: HashMap<String, Player>,
 }
 
+/// Reads the demo save file at `~/Demo/players` or creates it if it doesn't exist.
+/// It retourns a HashMap where the keys are the usernames and the values ate the Player struct
 pub fn parse_players() -> HashMap<String, Player> {
     // Get player save file path
     let mut player_file_path = home::home_dir().unwrap();
@@ -57,6 +61,7 @@ pub fn parse_players() -> HashMap<String, Player> {
     players
 }
 
+/// Takes a hashmap of players and saves it to the demo save file at `~/Demo/players`
 pub fn save_players(players: &HashMap<String, Player>) {
     let mut player_file_path = home::home_dir().unwrap();
     player_file_path.push("Demo");
@@ -74,6 +79,8 @@ pub fn save_players(players: &HashMap<String, Player>) {
     file.write_all(save_file.as_bytes()).unwrap();
 }
 
+/// Checks if the player is at the left or right of the screen and replies with the corresponding
+/// side key
 pub fn player_side(x: i32) -> char {
     if x < X_CENTER {
         'a'

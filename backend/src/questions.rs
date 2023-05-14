@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+/// Holds all the question data. `a` and `b` are the possible answers, and `correct` is a char
+/// that's either `a` or `b`.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Question {
     pub question: String,
@@ -9,6 +11,7 @@ pub struct Question {
     pub number: u8,
 }
 
+/// Returns a question based on the question ID provided
 pub fn get_question(number: u8) -> Question {
     match number {
         1 => Question {
