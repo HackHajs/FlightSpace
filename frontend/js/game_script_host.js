@@ -1,6 +1,22 @@
 //TODO: make 6 fake players
 const canvoth = document.getElementById('blahaj');
 const oth = canvoth.getContext('2d');
+let xa = 0; let ya = 0;
+let xb = 0; let yb = 0;
+let xc = 0; let yc = 0;
+let xd = 0; let yd = 0;
+let xe = 0; let ye = 0;
+oth.beginPath(); oth.arc(xa, ya, radius, 0, 2 * Math.PI);
+oth.fillStyle = '#d85959'; oth.fill();
+oth.beginPath(); oth.arc(xb, yb, radius, 0, 2 * Math.PI);
+oth.fillStyle = '#d85959'; oth.fill();
+oth.beginPath(); oth.arc(xc, yc, radius, 0, 2 * Math.PI);
+oth.fillStyle = '#d85959'; oth.fill();
+oth.beginPath(); oth.arc(xd, yd, radius, 0, 2 * Math.PI);
+oth.fillStyle = '#d85959'; oth.fill();
+oth.beginPath(); oth.arc(xe, ye, radius, 0, 2 * Math.PI);
+oth.fillStyle = '#d85959'; oth.fill();
+
 setInterval(function() {
     fetch('http://localhost:8080/players')
         .then(response => response.json()) // Convert response to JSON
