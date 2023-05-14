@@ -1,3 +1,4 @@
+//TODO: Add lose condition
 const cnvs = document.getElementById("quest");
 const cnv = cnvs.getContext("2d");
 var number=0;
