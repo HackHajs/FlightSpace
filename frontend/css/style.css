@@ -117,5 +117,24 @@
     right: 60px;
     bottom:60px;
   }
-
+#myVideo{
+  /*blur*/
+  filter: blur(3px);
+  -webkit-filter: blur(3px);
+  /*adjust to background, don't overflow*/
+  object-fit: cover;
+  width: 100%;      
+  height: 100%;
+  z-index: -1;
+}
+#l{
+  width: 100%;
+  background-color: white;
+  height: 30%;
+  border-radius: 30px;
+  z-index: 1;
+  position: absolute;
+  bottom: -10px;
+  left: -0.5px;
+}
   /*4c4d4f*/
