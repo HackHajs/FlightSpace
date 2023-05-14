@@ -7,6 +7,15 @@
     left: 50px;
 
 }
+#PreloadTitleX{
+  font-family: "Inter";
+  font-weight: 300;
+  letter-spacing: -3px;
+  position: absolute;
+  bottom: 119px;
+  left: 170px;
+
+}
 #PreloadSubTitle{
     font-family: "Inter";
     font-weight: 700;

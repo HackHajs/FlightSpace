@@ -1,0 +1,59 @@
+body{
+     background-color: black;
+}
+#montorlogo{
+    font-family:"Inter";
+    font-size: 2.5em;
+    position:absolute;
+    top: -10px;
+    left: 31px;
+    font-weight:700;
+    letter-spacing: -3px;
+    color:white;
+}
+#montorshuf{
+    font-family:"Inter";
+    font-size: 1.5em;
+    position:absolute;
+    top: 22px;
+    left: 151px;
+    font-weight:200;
+    letter-spacing: -3px;
+    color:white;
+}
+#top_vid{
+    position:absolute;
+    bottom: -30px;
+    border-radius: 30px;
+    right: 50%;
+    left: 0%;
+    width: 100%;
+    height: 90%;
+    z-index: 1;
+    text-align:center;
+    background-color:white;
+}
+#shuffle_img{
+    position:absolute;
+    height:50px;
+    top: 40%;
+    right: 18%;
+
+}
+#shuffle{
+    position:absolute;
+    height:50px;
+    top: 48%;
+    right: 17%;
+    left: 69%;
+    text-align: center;
+    color: white;
+    font-family: "Inter";
+    font-weight:600;
+    letter-spacing: -1px;
+}
+#shuffle_btn{
+    position:absolute;
+    top: 55px;
+    right: 45px;
+}

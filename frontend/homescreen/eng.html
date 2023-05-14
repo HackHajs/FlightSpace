@@ -3,6 +3,26 @@
 <head>
 
     <script>
+      function changeColorRandomly() {
+  // Get all elements on the page
+  const elements = document.getElementsByTagName('*');
+
+  // Generate a random color in hexadecimal format
+  function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  // Apply random color to each element
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].style.color = getRandomColor();
+  }
+}
+
         function maxy() {
           var element = document.documentElement; // Get the root element (the <html> element)
           
@@ -87,7 +107,7 @@
     <div id="uwu" class=" hidden">
         <div id="flightrivia" class="">
             <img id="loadercon" src="apps/assets/TRIVIA.png" height="60px" alt="App">
-            <p id="subtitle">Flightrivia</p>
+            <p id="subtitle">Trivialing</p>
             <div id="Spinner" class="loading-spinner"></div>
         </div>
     </div>
@@ -126,11 +146,11 @@
                         }
                       </script>
                     <img class="imgee" src="apps/assets/TRIVIA.png" height="60px" alt="App">
-                    <p class="txt">Flightrivia</p>
+                    <p class="txt">Trivialing</p>
                     <!-- /game/ -->
                 </div>
                 <div id="max" class="apps" onclick="toggleFullscreen()">
-                    <img class="imgee" src="apps/assets/setting.png" height="60px" alt="App">
+                    <img id="minmax" class="imgee" src="apps/assets/max.png" height="60px" alt="App">
                     <p class="txt" id="fullscreenText">Maximize</p>
                   </div>
                   
@@ -138,7 +158,7 @@
                     function toggleFullscreen() {
                       var button = document.getElementById("max");
                       var text = document.getElementById("fullscreenText");
-                      
+                      var xd = document.getElementById("minmax");
                       if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
                         // If the page is already in fullscreen, minimize it
                         if (document.exitFullscreen) {
@@ -150,7 +170,7 @@
                         } else if (document.msExitFullscreen) {
                           document.msExitFullscreen(); // IE/Edge-specific method
                         }
-                        
+                        xd.setAttribute("src", "apps/assets/max.png");
                         text.textContent = "Maximize";
                       } else {
                         // If the page is not in fullscreen, maximize it
@@ -165,19 +185,19 @@
                         } else if (element.msRequestFullscreen) {
                           element.msRequestFullscreen(); // IE/Edge-specific method
                         }
-                        
+                        xd.setAttribute("src", "apps/assets/min.png");
                         text.textContent = "Minimize";
                       }
                     }
                   </script>
                   
-                <div id="min" class="apps" onclick="miny()">
-                    <img class="imgee" src="apps/assets/TRIVIA.png" height="60px" alt="App">
-                    <p class="txt">Settings</p>
+                <div id="min" class="apps" onclick="window.location.href='/frontend/homescreen/apps/montor.html'">
+                    <img class="imgee" src="apps/assets/montor.png" height="60px" alt="App">
+                    <p class="txt">Montor</p>
                 </div>
-                <div class="apps">
+                <div class="apps" onclick="changeColorRandomly()">
                     <img class="imgee" src="apps/assets/TRIVIA.png" height="60px" alt="App">
-                    <p class="txt  ">Flightrivia</p>
+                    <p class="txt  ">Click me</p>
                 </div>
                 <div class="apps">
                     <img class="imgee" src="apps/assets/TRIVIA.png" height="60px" alt="App">
