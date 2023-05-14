@@ -1,20 +1,21 @@
 //TODO: make 6 fake players
 const canvoth = document.getElementById('blahaj');
 const oth = canvoth.getContext('2d');
+const radiuwus=25
 let xa = 640; let ya = 0;
 let xb = 640; let yb = 0;
 let xc = 640; let yc = 0;
 let xd = 640; let yd = 0;
 let xe = 640; let ye = 0;
-oth.beginPath(); oth.arc(xa, ya, radius, 0, 2 * Math.PI);
+oth.beginPath(); oth.arc(xa, ya, radiuwus, 0, 2 * Math.PI);
 oth.fillStyle = '#d85959'; oth.fill();
-oth.beginPath(); oth.arc(xb, yb, radius, 0, 2 * Math.PI);
+oth.beginPath(); oth.arc(xb, yb, radiuwus, 0, 2 * Math.PI);
 oth.fillStyle = '#d85959'; oth.fill();
-oth.beginPath(); oth.arc(xc, yc, radius, 0, 2 * Math.PI);
+oth.beginPath(); oth.arc(xc, yc, radiuwus, 0, 2 * Math.PI);
 oth.fillStyle = '#d85959'; oth.fill();
-oth.beginPath(); oth.arc(xd, yd, radius, 0, 2 * Math.PI);
+oth.beginPath(); oth.arc(xd, yd, radiuwus, 0, 2 * Math.PI);
 oth.fillStyle = '#d85959'; oth.fill();
-oth.beginPath(); oth.arc(xe, ye, radius, 0, 2 * Math.PI);
+oth.beginPath(); oth.arc(xe, ye, radiuwus, 0, 2 * Math.PI);
 oth.fillStyle = '#d85959'; oth.fill();
 
 setInterval(function() {
@@ -29,15 +30,15 @@ setInterval(function() {
             let xe = data.players.e.x_pos; let ye = data.players.e.y_pos;
             console.log("Extracted data from API")
             ////////////////////////////////////////////////////////////////////
-            oth.beginPath(); oth.arc(xa, ya, radius, 0, 2 * Math.PI);
+            oth.beginPath(); oth.arc(xa, ya, radiuwus, 0, 2 * Math.PI);
             oth.fillStyle = '#d85959'; oth.fill();
-            oth.beginPath(); oth.arc(xb, yb, radius, 0, 2 * Math.PI);
+            oth.beginPath(); oth.arc(xb, yb, radiuwus, 0, 2 * Math.PI);
             oth.fillStyle = '#d85959'; oth.fill();
-            oth.beginPath(); oth.arc(xc, yc, radius, 0, 2 * Math.PI);
+            oth.beginPath(); oth.arc(xc, yc, radiuwus, 0, 2 * Math.PI);
             oth.fillStyle = '#d85959'; oth.fill();
-            oth.beginPath(); oth.arc(xd, yd, radius, 0, 2 * Math.PI);
+            oth.beginPath(); oth.arc(xd, yd, radiuwus, 0, 2 * Math.PI);
             oth.fillStyle = '#d85959'; oth.fill();
-            oth.beginPath(); oth.arc(xe, ye, radius, 0, 2 * Math.PI);
+            oth.beginPath(); oth.arc(xe, ye, radiuwus, 0, 2 * Math.PI);
             oth.fillStyle = '#d85959'; oth.fill();
             console.log("Drawn players")
 
