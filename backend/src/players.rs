@@ -7,8 +7,8 @@ use std::{
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 
-pub const X_CENTER: i32 = 1920 / 2;
-pub const Y_CENTER: i32 = 1080 / 2;
+pub const X_CENTER: i32 = 1366 / 2;
+pub const Y_CENTER: i32 = 768 / 2;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Player {
