@@ -125,7 +125,7 @@ async fn create_player(name: web::Path<String>) -> impl Responder {
 /// The request structure is the following
 /// `http://ip_address/question`
 ///
-/// The replied json object has the following structure:
+/// The returned json object has the following structure:
 /// ```json
 /// question: "<QUESTION_TEXT>"
 /// a: "<POSSIBLE_ANSWER_1>"
@@ -183,6 +183,22 @@ async fn clear() -> impl Responder {
         .json("OK")
 }
 
+/// Returns a specific question when provided with the question ID.
+/// # How to use:
+/// The request structure is the following:
+/// `http://ip_address/questionid/<QUESTION_ID>`
+/// where `<QUESTION_ID>` is the id of the question you want to receive
+///
+/// The returned json object has the following structure:
+/// ```json
+/// question: "<QUESTION_TEXT>"
+/// a: "<POSSIBLE_ANSWER_1>"
+/// b: "<POSSIBLE_ANSWER_2>"
+/// correct: "<CORRECT>"
+/// number: <QUESTION_ID>
+/// ```
+/// - `<CORRECT>` is either `a` or `b`, representing one of the possible answers
+/// - `<QUESTION_ID>` is supplied so players can later be judged on the correct question
 #[get("/questionid/{id}")]
 async fn questionid(id: web::Path<String>) -> impl Responder {
     let question = get_question(id.parse().unwrap());
