@@ -10,11 +10,13 @@ FlightSpace is a revolutionary web application designed specifically for flights
 
 FlightSpace breaks the barrier of traditional in-flight communication by allowing passengers to connect and interact with each other without relying on an internet connection. Using innovative offline technologies, FlightSpace creates a local network within the aircraft, enabling passengers to send messages, share experiences, and foster a sense of community during their journey.
 
-![**Explore the API docs »**](https://docs.flightspace.tech/)
+[**Explore the API docs »**](https://docs.flightspace.tech/)
 
 ### Maxi iPad-Like Experience
 
 FlightSpace transforms the in-flight entertainment system into a state-of-the-art, maxi iPad-like device. Passengers can enjoy a sleek and intuitive user interface that provides access to a wide range of entertainment options, including movies, music, games, and more. The large touch screen display and user-friendly interface make it easy for users of all ages to navigate and enjoy their preferred content.
+
+![UI](https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/481/358/datas/original.png)
 
 ### Trivia Game
 
